@@ -1,2 +1,2 @@
-# JSON
-Repo for JSON projects
+# JSON-AJAX
+Repo for JSON and AJAX projects
