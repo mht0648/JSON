@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch</title>
+</head>
+
+<body>
+    <h1>Fetch</h1>
+    <div id="output">
+
+    </div>
+    <input id='btnLoad' type="button" value="Load">
+    <script type="text/javascript">
+        var loadBtn = document.getElementById('btnLoad');
+        loadBtn.addEventListener('click', loadData);
+
+        function loadData() {
+            fetch('https://randomuser.me/api')
+                .then(resResult).then(function(result){
+                    var temp = JSON.parse(result);
+                    return temp.results[0];
+                }).then(function(user){
+                    document.getElementById('output').innerHTML = '<h1>' + user.name.first + ' ' + user.name.last +
+                        '</h1> <img src="' + user.picture.large + '" >';
+                })
+                .catch(error => console.log(error))
+        }
+
+        function resResult(response) {
+            return response.text();
+        }
+    </script>
+</body>
+
+</html>

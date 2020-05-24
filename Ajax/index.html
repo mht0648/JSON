@@ -30,6 +30,17 @@
             xhr.open('GET', 'https://randomuser.me/api', true);
             xhr.send();
         }
+
+        window.onload = function(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if(xhr.status == 200 && xhr.readyState == 4){
+                    document.getElementById('output').innerHTML = xhr.response;
+                }
+            }
+            xhr.open('GET', 'sampleData.txt', true);
+            xhr.send();
+        }
     </script>
 </body>
 
