@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task List</title>
+</head>
+
+<body>
+  <h1>Task List</h1>
+  <div id="output">
+    <ol id="taskList"></ol>
+  </div>
+  <form id="taskForm">
+    Task: <input type="text" name="inputTask" placeholder="add task">
+    <input type="submit" value="Add new Task">
+    <input type="button" value="Clear" onclick="clearData()">
+  </form>
+  <script type="text/javascript">
+    var jsonData = "";
+    var taskList = document.querySelector("#taskList");
+    document.getElementById('taskForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var taskInput = document.querySelector('input[name="inputTask"]');
+      if(taskInput.value != null && taskInput.value != ''){
+        addNewItem(taskInput.value);
+        taskInput.value = '';
+      }
+    });
+
+    function createListItem(item, key) {
+      var listItemTag = document.createElement('li');
+      var textItemTag = document.createTextNode(item.info);
+      var checkboxTag = document.createElement('input');
+      var removeButton = document.createElement('input');
+      checkboxTag.type = 'checkbox';
+      checkboxTag.value = key;
+      checkboxTag.checked = item.status;
+      removeButton.type = 'button';
+      removeButton.value = 'X';
+      removeButton.onclick = removeItem;
+      removeButton.style.background = 'none';
+      removeButton.style.border = 'none';
+      removeButton.style.cursor = 'grab';
+      removeButton.style.color = 'red';
+      checkboxTag.onchange = updateJson;
+      listItemTag.appendChild(textItemTag);
+      listItemTag.appendChild(checkboxTag);
+      listItemTag.appendChild(removeButton);
+      document.querySelector('#taskList').appendChild(listItemTag);
+    }
+
+    function addNewItem(item) {
+      var taskData = { "info": item, "status": false };
+      createListItem(taskData, jsonData.length);
+      jsonData.push(taskData);
+    }
+
+    function buildCheckBoxes(data) {
+      for (let i in data) {
+        createListItem(data[i], i);
+      }
+    }
+
+    function updateJson() {
+      var key = event.target.value;
+      var status = event.target.checked;
+      jsonData[key].status = status;
+      sessionStorage['task'] = JSON.stringify(jsonData);
+    }
+
+    window.onload = function () {
+      if (sessionStorage["task"] != null) {
+        jsonData = JSON.parse(sessionStorage["task"]);
+      } else {
+        var data = '[{"info": "Check Emails", "status": true },{"info": "Listen to Voice Mail","status": false},{"info": "Attend Meetings","status": false}]';
+        jsonData = JSON.parse(data);
+      }
+      buildCheckBoxes(jsonData);
+    };
+    function removeItem(event)
+    {
+      var index = this.previousElementSibling.value;
+      taskList.innerHTML = '';
+      jsonData.splice(index,1);
+      console.log(jsonData);
+      buildCheckBoxes(jsonData);
+    }
+    function clearData()
+    {
+      jsonData = {};
+      sessionStorage.clear();
+      taskList.innerHTML = '';
+      buildCheckBoxes(jsonData);
+    }
+  </script>
+</body>
+
+</html>
