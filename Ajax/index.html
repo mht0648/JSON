@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajax</title>
 </head>
+
 <body>
     <h1>
         Ajax Data
     </h1>
     <div id="output"></div>
-
+    <input id="btnLoad" type="button" value="Load">
     <script type="text/javascript">
-    var jsonRepsonse;
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            if(xhr.status == 200 && xhr.readyState == 4){
-                jsonRepsonse = JSON.parse(xhr.responseText);
-                console.log(jsonRepsonse);
+        var loadButton = document.getElementById('btnLoad');
+        loadButton.addEventListener('click', loadData);
+        function loadData() {
+            var jsonRepsonse;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    jsonRepsonse = JSON.parse(xhr.responseText);
+                    var data = jsonRepsonse.results[0];
+                    document.getElementById('output').innerHTML = '<h1>' + data.name.first + ' ' + data.name.last +
+                        '</h1> <img src="' + data.picture.large + '" >';
+                }
             }
+            xhr.open('GET', 'https://randomuser.me/api', true);
+            xhr.send();
         }
-        xhr.open('GET','https://randomuser.me/api',true);
-        xhr.send();
     </script>
 </body>
+
 </html>
