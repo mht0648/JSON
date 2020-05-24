@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+</head>
+<body>
+    <h1>
+        Ajax Data
+    </h1>
+    <div id="output"></div>
+
+    <script type="text/javascript">
+    var jsonRepsonse;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.status == 200 && xhr.readyState == 4){
+                jsonRepsonse = JSON.parse(xhr.responseText);
+                console.log(jsonRepsonse);
+            }
+        }
+        xhr.open('GET','https://randomuser.me/api',true);
+        xhr.send();
+    </script>
+</body>
+</html>
