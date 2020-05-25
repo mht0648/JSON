@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Post Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <form id='myForm'>
+            First Name: <input type="text" name="fName" value="Test"><br>
+            Last Name: <input type="text" name="lName" value="Temp"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $('#myForm').submit(function (e) {
+            e.preventDefault();
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://mockbin.com/request?foo=bar&foo=baz",
+                "method": "POST",
+                "data": "{\"foo\": \"bar\"}",
+                "headers": {
+                    "accept": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                "contentType": "application/x-www-form-urlencoded"
+            }
+
+            $.ajax(settings).done(function (data) {
+                console.log(data);
+            }).fail(function () {
+                console.log('failed');
+            })
+        })
+
+        function output(data) {
+            console.log('data');
+        }
+    </script>
+</body>
+
+</html>
