@@ -34,7 +34,12 @@
             $.get(url, spaceDataOutput);
         }
         function spaceDataOutput(data) {
-            console.log(data[0].mission_name + ' ' + data[0].details);
+            var html = '';
+            $.each(data, function (k, v) {
+                html += '<h2> ' + (++k) + ' ' + v.mission_name + ' </h2>';
+                html += '<p> ' + v.details + ' </p>';
+            });
+            $('#output').html(html);
         }
     </script>
 </body>
